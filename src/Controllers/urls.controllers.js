@@ -58,3 +58,20 @@ export async function deleteUrl(req,res){
     }
 }
 
+export async function redirectUrl(req,res){
+    const {shortUrl}= req.params
+    try{
+        let existing= await db.query(`SELECT * FROM urls WHERE "shortUrl" = $1`,[shortUrl])
+        if( existing.rows.length === 0){
+            return res.sendStatus(404)
+        }
+        else{
+            let link= existing.rows[0].url
+            let count= existing.rows[0].visitCount + 1
+            await db.query(`UPDATE urls SET "visitCount"= $1 WHERE "shortUrl"=$2`, [count, shortUrl])
+            return res.redirect(link)
+        }
+    } catch(err){
+        console.log(err.message)
+    }
+}
