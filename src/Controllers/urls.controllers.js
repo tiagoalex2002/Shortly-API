@@ -7,7 +7,7 @@ export async function shortenUrls(req,res){
     console.log(session)
     try{
         const short =  nanoid()
-        await db.query(`INSERT INTO urls ("shortUrl",url, user) VALUES  ($1,$2);`,[short,url, session.rows[0].email])
+        await db.query(`INSERT INTO urls ("shortUrl",url, user) VALUES  ($1,$2, $3);`,[short,url, session.rows[0].email])
         let resposta= await db.query(`SELECT * FROM urls WHERE url= $1;`,[url])
         return res.status(201).send({
             id: resposta.rows[0].id,
