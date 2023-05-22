@@ -1,5 +1,5 @@
 import { db } from "../Database/database.connection.js"
-import { v4 } from "uuid";
+import { v4 as uuid} from "uuid";
 import bcrypt from "bcrypt";
 
 
