@@ -17,7 +17,7 @@ export async function getUser(req,res){
         }
         return res.status(200).send(body)
     } catch(err){
-        console.log(err.message)
+        console.log(err.message) 
     }
 }
 
