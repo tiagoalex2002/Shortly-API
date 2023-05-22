@@ -22,7 +22,7 @@ export async function shortenUrls(req,res){
 export async function getUrlbyId(req,res) {
     const {id}= parseInt(req.params)
     try{
-        let linkU = await db.query(`SELECT * FROM urls WHERE id= $1`, [id])
+        let linkU = await db.query(`SELECT * FROM urls WHERE id= $1;`, [id])
         if(linkU.rows.length ===0){
             return res.sendStatus(404)
         }
