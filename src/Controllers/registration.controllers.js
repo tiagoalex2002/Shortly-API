@@ -31,7 +31,7 @@ export async function signIn(req,res){
     const token= uuid()
     try{
         let user= await db.query(`SELECT * FROM users WHERE email= $1;`, [email])
-        if(user.rows.length === 0 || password !== bcrypt.compareSync(password, user.rows[0].password)){
+        if(user.rows.length === 0 ||  !bcrypt.compareSync(password, user.rows[0].password)){
             return res.sendStatus(401)
         }
         else{
