@@ -17,9 +17,12 @@ export async function signUp(req,res){
             if(user.rows.length !== 0){
                 return res.sendStatus(409)
             }
-            await db.query(`INSERT INTO users (name, email, password) VALUES
-            ($1, $2, $3);
-        `, [name, email,encryptedPassword])
+            else{
+                await db.query(`INSERT INTO users (name, email, password) VALUES
+                ($1, $2, $3);
+                `, [name, email,encryptedPassword])
+                return res.sendStatus(201)
+            }
         } catch(err){
             console.log(err.message)
         }
