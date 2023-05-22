@@ -4,8 +4,8 @@ export async function getUser(req,res){
     let session= res.locals.session
     let visits;
     try{
-        let user = await db.query(`SELECT * FROM users WHERE email= $1`,[session.rows[0].email])
-        let shortened= await db.query(`SELECT * FROM urls WHERE user= $1`,[user.rows[0].id])
+        let user = await db.query(`SELECT * FROM users WHERE email= $1;`,[session.rows[0].email])
+        let shortened= await db.query(`SELECT * FROM urls WHERE user= $1;`,[user.rows[0].id])
         for (let i=0; i <  shortened.rows.length; i++){
             visits= visits + shortened.rows[i].visitCount
         }
@@ -24,10 +24,10 @@ export async function getUser(req,res){
 export async function getRanking(req,res){
     let ranking=[]
     try{
-        let users= await db.query(`SELECT * FROM users`)
+        let users= await db.query(`SELECT * FROM users;`)
         for (let i=0; i < users.rows.length; i++){
-            let linkCount = await db.query(`SELECT COUNT(urls."shortUrl") FROM urls WHERE user= $1`, [users.rows[i].id])
-            let visitSum= await db.query (`SELECT SUM(urls."visitCount") from urls WHERE user=$1`,[users.rows[i].id])
+            let linkCount = await db.query(`SELECT COUNT(urls."shortUrl") FROM urls WHERE user= $1;`, [users.rows[i].id])
+            let visitSum= await db.query (`SELECT SUM(urls."visitCount") from urls WHERE user=$1;`,[users.rows[i].id])
             ranking.push(
                 {id: users.rows[i].id,
                  name: users.rows[i].name,

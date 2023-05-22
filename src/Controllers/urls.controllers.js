@@ -42,7 +42,7 @@ export async function deleteUrl(req,res){
     const session= res.locals.session
 
     try{
-        let existing= await db.query(`SELECT * FROM urls WHERE id= $1`,[id])
+        let existing= await db.query(`SELECT * FROM urls WHERE id= $1;`,[id])
         if( existing.rows.length ===0){
             return res.sendStatus(404)
         }
@@ -50,7 +50,7 @@ export async function deleteUrl(req,res){
             if (existing.rows[0].user !== session.rows[0].email){
                 return res.sendStatus(401)
             }
-            await db.query(`DELETE * FROM urls WHERE id=$1`,[id])
+            await db.query(`DELETE * FROM urls WHERE id=$1;`,[id])
             return res.sendStatus(204)
         }
     }catch(err){
@@ -61,14 +61,14 @@ export async function deleteUrl(req,res){
 export async function redirectUrl(req,res){
     const {shortUrl}= req.params
     try{
-        let existing= await db.query(`SELECT * FROM urls WHERE "shortUrl" = $1`,[shortUrl])
+        let existing= await db.query(`SELECT * FROM urls WHERE "shortUrl" = $1;`,[shortUrl])
         if( existing.rows.length === 0){
             return res.sendStatus(404)
         }
         else{
             let link= existing.rows[0].url
             let count= existing.rows[0].visitCount + 1
-            await db.query(`UPDATE urls SET "visitCount"= $1 WHERE "shortUrl"=$2`, [count, shortUrl])
+            await db.query(`UPDATE urls SET "visitCount"= $1 WHERE "shortUrl"=$2;`, [count, shortUrl])
             return res.redirect(link)
         }
     } catch(err){
