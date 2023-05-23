@@ -54,7 +54,7 @@ export async function deleteUrl(req,res){
             if (existing.rows[0].user !== user.rows[0].id){
                 return res.sendStatus(401)
             }
-            await db.query(`DELETE * FROM urls WHERE id=$1;`,[id])
+            await db.query(`DELETE FROM urls WHERE id=$1;`,[id])
             return res.sendStatus(204)
         }
     }catch(err){
