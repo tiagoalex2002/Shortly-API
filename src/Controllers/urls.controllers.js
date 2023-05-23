@@ -40,7 +40,7 @@ export async function getUrlbyId(req,res) {
 }
 
 export async function deleteUrl(req,res){
-    const id = parseInt(req.params)
+    const id = parseInt(req.params.id)
     const session= res.locals.session
 
     try{
