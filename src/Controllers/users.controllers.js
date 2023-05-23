@@ -26,13 +26,15 @@ export async function getRanking(req,res){
     try{
         let users= await db.query(`SELECT * FROM users;`)
         for (let i=0; i < users.rows.length; i++){
-            let linkCount = await db.query(`SELECT COUNT(urls."shortUrl") FROM urls WHERE "user"= $1;`, [users.rows[i].id])
-            let visitSum= await db.query (`SELECT SUM(urls."visitCount") from urls WHERE "user"=$1;`,[users.rows[i].id])
+            let linkCount = await db.query(`SELECT COUNT(urls."shortUrl") AS "linkCount" FROM urls WHERE "user"= $1;`, [users.rows[i].id])
+            let visitSum= await db.query (`SELECT SUM(urls."visitCount") AS "visitSum" from urls WHERE "user"=$1;`,[users.rows[i].id])
+            console.log(linkCount)
+            console.log(visitSum)
             ranking.push(
                 {id: users.rows[i].id,
                  name: users.rows[i].name,
-                 linksCount: linkCount,
-                 visitCount: visitSum}
+                 linksCount: linkCount.rows[0].linkCount,
+                 visitCount: visitSum.rows[0].visitSum}
             )
         }
     } catch(err){
