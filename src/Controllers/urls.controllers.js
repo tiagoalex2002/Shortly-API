@@ -62,8 +62,10 @@ export async function deleteUrl(req,res){
 
 export async function redirectUrl(req,res){
     const {shortUrl}= req.params
+    console.log(shortUrl)
     try{
         let existing= await db.query(`SELECT * FROM urls WHERE "shortUrl" = $1;`,[shortUrl])
+        console.log(existing)
         if( existing.rows.length === 0){
             return res.sendStatus(404)
         }
