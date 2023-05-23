@@ -44,12 +44,14 @@ export async function deleteUrl(req,res){
     const session= res.locals.session
 
     try{
+        let user = await db.query(`SELECT * FROM users WHERE email= $1;`,[session.rows[0].email])
+
         let existing= await db.query(`SELECT * FROM urls WHERE id= $1;`,[id])
         if( existing.rows.length ===0){
             return res.sendStatus(404)
         }
         else{
-            if (existing.rows[0].user !== session.rows[0].email){
+            if (existing.rows[0].user !== user.rows[0].id){
                 return res.sendStatus(401)
             }
             await db.query(`DELETE * FROM urls WHERE id=$1;`,[id])
