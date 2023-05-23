@@ -51,7 +51,6 @@ export async function getRanking(req,res){
         let aux= ranking[i];
         ranking[i]=ranking[maior];
         ranking[maior]=aux;
-        console.log(choices)
       }
     if (ranking.length <= 10){
         return res.status(200).send(ranking)
