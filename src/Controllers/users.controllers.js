@@ -33,8 +33,8 @@ export async function getRanking(req,res){
             ranking.push(
                 {id: users.rows[i].id,
                  name: users.rows[i].name,
-                 linksCount: linkCount.rows[0].linkCount,
-                 visitCount: visitSum.rows[0].visitSum}
+                 linksCount: Number(linkCount.rows[0].linkCount),
+                 visitCount: visitSum.rows[0].visitSum === null ? 0 : Number(visitSum.rows[0].visitSum) }
             )
         }
     } catch(err){
