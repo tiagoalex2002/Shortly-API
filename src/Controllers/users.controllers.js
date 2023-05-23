@@ -2,7 +2,7 @@ import { db } from "../Database/database.connection.js";
 
 export async function getUser(req,res){
     let session= res.locals.session
-    let visits;
+    let visits=0;
     try{
         let user = await db.query(`SELECT * FROM users WHERE email= $1;`,[session.rows[0].email])
         let shortened= await db.query(`SELECT * FROM urls WHERE "user"= $1;`,[user.rows[0].id])
